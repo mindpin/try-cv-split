@@ -1,0 +1,9 @@
+@api =
+  post:
+    create: '/posts'
+    show: (post)->
+      "/posts/#{post._id.$oid}"
+    update: (post_id)->
+      "/posts/#{post_id}"
+    destory: (post_id)->
+      "/posts/#{post_id}"
