@@ -1,9 +1,28 @@
+# 直接用 api 来进行请求，而不仅仅是获取 url，能简化调用链
 @api =
-  post:
-    create: '/posts'
-    show: (post)->
-      Routes.post_path post._id.$oid
-    update: (post_id)->
-      Routes.post_path post_id
-    destory: (post_id)->
-      Routes.post_path post_id
+  resource: (resource_name)->
+    # GET 请求
+    # index
+    show: (resource)->
+      if resource._id?.$oid?
+        resource.id = resource._id.$oid
+      eval.call(@, "Routes.#{resource_name}_path")(resource)
+    # edit
+    
+    # 非 GET 请求
+    create: (data)->
+      jQuery.ajax
+        url: eval.call(@, "Routes.#{resource_name}s_path")()
+        type: 'POST'
+        data: data
+
+    update: (resource, data)->
+      jQuery.ajax
+        url: eval.call(@, "Routes.#{resource_name}_path")(resource)
+        type: 'PUT'
+        data: data
+
+    destory: (resource)->
+      jQuery.ajax
+        url: eval.call(@, "Routes.#{resource_name}_path")(resource)
+        type: 'DELETE'
