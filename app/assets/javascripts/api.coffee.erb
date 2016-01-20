@@ -2,8 +2,8 @@
   post:
     create: '/posts'
     show: (post)->
-      "/posts/#{post._id.$oid}"
+      Routes.post_path post._id.$oid
     update: (post_id)->
-      "/posts/#{post_id}"
+      Routes.post_path post_id
     destory: (post_id)->
-      "/posts/#{post_id}"
+      Routes.post_path post_id

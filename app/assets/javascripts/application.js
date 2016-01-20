@@ -5,4 +5,6 @@
 //= require react
 //= require react_ujs
 
+// = require js-routes
+
 //= require_tree .
