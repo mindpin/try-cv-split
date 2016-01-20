@@ -2,7 +2,7 @@
   post:
     create: '/posts'
     show: (post)->
-      Routes.post_path post._id.$oid
+      Routes.post_path post._id
     update: (post_id)->
       Routes.post_path post_id
     destory: (post_id)->
