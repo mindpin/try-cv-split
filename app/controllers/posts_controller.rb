@@ -30,7 +30,7 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
 
     if @post.save
-      render json: {post: @post} # 一般有个 200 状态返回就行，如果需要其他信息就在这里补充
+      render json: {post: @post.simple_json} # 一般有个 200 状态返回就行，如果需要其他信息就在这里补充
     else
       render json: @post.errors, status: :unprocessable_entity
     end
