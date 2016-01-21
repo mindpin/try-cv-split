@@ -8,7 +8,7 @@ jQuery(document).on 'ready page:load', ->
       url: api.post.create
       data: data
     .done (res)->
-      Turbolinks.visit api.post.show(res.post)
+      Turbolinks.visit api.post.show(res)
     .fail (res)->
       errors = JSON.parse res.responseText
       $err_tips = jQuery "<div class='error-tips' style='color:red;'></div>"
@@ -28,7 +28,7 @@ jQuery(document).on 'ready page:load', ->
       url: api.post.update post_id
       data: data
     .done (res)->
-      Turbolinks.visit api.post.show(res.post)
+      Turbolinks.visit api.post.show(res)
     .fail (res)->
       errors = JSON.parse res.responseText
       $err_tips = jQuery "<div class='error-tips' style='color:red;'></div>"
