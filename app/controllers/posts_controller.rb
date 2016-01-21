@@ -28,22 +28,14 @@ class PostsController < ApplicationController
 
   def create
     @post = Post.new(post_params)
-
-    if @post.save
-      render json: @post.good_as_json 
-      # 一般有个 200 状态返回就行，如果需要其他信息就在这里补充
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
+    # 做一些和 current_user，设备，请求头信息 …… 等相关的事情
+    _do_save @post
   end
 
   def update
-    if @post.update(post_params)
-      render json: @post.good_as_json 
-      # 一般有个 200 状态返回就行，如果需要其他信息就在这里补充
-    else
-      render json: @post.errors, status: :unprocessable_entity
-    end
+    @post.assign_attributes(post_params)
+    # 做一些和 current_user，设备，请求头信息 …… 等相关的事情
+    _do_save @post
   end
 
   def destroy
