@@ -6,4 +6,15 @@
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
   %body
-    = yield
+    .ui.container
+      .ui.menu
+        %a.item{:href => "/"} TryCvSplit
+      .ui.grid
+        .four.wide.column
+          .ui.menu.vertical
+            - if request.path == "/posts"
+              %a.active.item{:href => "/posts"} Posts
+            - else
+              %a.item{:href => "/posts"} Posts
+        .twelve.wide.column
+          = yield

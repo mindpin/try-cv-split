@@ -7,7 +7,7 @@ show_errors = ($form, errors)->
     .find('.error-tips').remove().end()
     .append $err_tips
 
-jQuery(document).on 'ready page:load', ->
+jQuery(document).on 'ready page:change', ->
   $new_form = jQuery('form.new_post')
   $edit_form = jQuery('form.edit_post')
 

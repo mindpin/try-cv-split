@@ -1,6 +1,5 @@
-%p#notice= notice
 %h1 Listing Posts
-%table.posts
+%table.posts.ui.celled.table
   %thead
     %tr
       %th Title
@@ -17,5 +16,7 @@
         %td= link_to 'Edit', edit_post_path(post)
         %td
           %a.destory{href: 'javascript:;', data: {id: post.id}} Destory
-%br/
-= link_to 'New Post', new_post_path
+
+%a.ui.labeled.icon.button.green{:href => new_post_path}
+  %i.icon.add
+  New Post
