@@ -12,9 +12,9 @@
       .ui.grid
         .four.wide.column
           .ui.menu.vertical
-            - if request.path == "/posts"
-              %a.active.item{:href => "/posts"} Posts
+            - if request.path == "/books"
+              %a.active.item{:href => "/books"} Books
             - else
-              %a.item{:href => "/posts"} Posts
+              %a.item{:href => "/books"} Books
         .twelve.wide.column
           = yield

@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :posts
+  resources :books
   resources :items
-  get "/" => redirect("/posts")
+  get "/" => redirect("/books")
 end

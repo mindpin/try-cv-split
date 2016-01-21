@@ -11,7 +11,7 @@ class ApplicationController < ActionController::Base
       if model.save
         render json: model.good_as_json(json_params)
       else
-        render json: @post.errors, status: :unprocessable_entity
+        render json: model.errors, status: :unprocessable_entity
       end
     end
 end

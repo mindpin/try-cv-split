@@ -1,0 +1,12 @@
+= simple_form_for(@book) do |f|
+  = f.input :title
+  = f.input :body, :as => :text
+  = f.input :published, :as => :semantic_ui_boolean
+
+  .actions
+    - if @book.new_record?
+      %a.ui.button.primary.create-submit{href: 'javascript:;'} Create Book
+    - else
+      %a.ui.button.primary.update-submit{href: 'javascript:;', data: {id: @book.id}} Update Book
+
+    = link_to 'Back', books_path, class: 'ui button'

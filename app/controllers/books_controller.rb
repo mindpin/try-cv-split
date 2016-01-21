@@ -1,5 +1,5 @@
-class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+class BooksController < ApplicationController
+  before_action :set_book, only: [:show, :edit, :update, :destroy]
 
   # 初级的分离方案中
   # 类似 index show new edit 等 GET 请求 action
@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   # 由 js 构建页面 dom 内容
 
   def index
-    @posts = Post.all
+    @books = Book.all
   end
 
 
@@ -16,7 +16,7 @@ class PostsController < ApplicationController
   end
 
   def new
-    @post = Post.new
+    @book = Book.new
   end
 
   def edit
@@ -27,30 +27,30 @@ class PostsController < ApplicationController
   # 所有页面跳转，错误回报，页面内容变更都由 js 处理
 
   def create
-    @post = Post.new(post_params)
+    @book = Book.new(book_params)
     # 做一些和 current_user，设备，请求头信息 …… 等相关的事情
-    _do_save @post
+    _do_save @book
   end
 
   def update
-    @post.assign_attributes(post_params)
+    @book.assign_attributes(book_params)
     # 做一些和 current_user，设备，请求头信息 …… 等相关的事情
-    _do_save @post
+    _do_save @book
   end
 
   def destroy
-    @post.destroy
+    @book.destroy
     render json: {}
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
-    def set_post
-      @post = Post.find(params[:id])
+    def set_book
+      @book = Book.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def post_params
-      params.require(:post).permit(:title, :body, :published)
+    def book_params
+      params.require(:book).permit(:title, :body, :published)
     end
 end
