@@ -40,9 +40,12 @@
 name_verbs = <%= name_merged_hash.to_json %>
 
 @api =
-  routes: {}
+  routes: 
+    _names: []
 
 for name, verbs of name_verbs
+  @api.routes._names.push name
+
   (->
     _name = name
     _verbs = verbs
@@ -50,7 +53,8 @@ for name, verbs of name_verbs
 
     @api.routes[_name] = ->
       path = _func.apply(null, arguments)
-      requests = {}
+      requests = -> {}
+      requests.toString = -> path
       for verb in _verbs
         (->
           _verb = verb
@@ -62,6 +66,8 @@ for name, verbs of name_verbs
 
           requests.visit = ->
             Turbolinks.visit path
+
+          requests.path = path
         )()
       return requests
     

@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :posts do
     resources :book
   end
+  resources :items
   get "/" => redirect("/posts")
 
   put '/xmdm/:xmdm', to: 'home#xmdm'
