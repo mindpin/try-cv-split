@@ -6,6 +6,7 @@
 //= require react_ujs
 
 //= require semantic-ui
+//= require semantic-ui-loader
 
 // = require js-routes
 

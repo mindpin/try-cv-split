@@ -62,29 +62,15 @@ SimpleForm.setup do |config|
     b.use :error, wrap_with: { tag: 'div', class: 'ui red pointing above label error' }
   end
 
-  # config.wrappers :semantic_boolean, tag: 'div', class: "field", error_class: 'error', hint_class: 'with_hint' do |b|
-  #   b.use :html5
-  #   b.wrapper tag: 'div', class: 'ui checkbox' do |input|
-  #     # input.use :input
-  #     # <input type="checkbox" tabindex="0" class="hidden">
-  #     input.wrapper tag: 'input', class: 'hidden', tabindex: "0", type: 'checkbox' do end
-  #     # input.wrapper tag: 'label' do |box| 123 end
-  #     input.use :label
-  #   end
-  #   # b.use :label
-  # end
-
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :semantic
-  # config.wrapper_mappings = {
-  #   boolean: :semantic_boolean
-  # }
+
 
   # Define the way to render check boxes / radio buttons with labels.
   # Defaults to :nested for bootstrap config.
   #   inline: input + label
   #   nested: label > input
-  config.boolean_style = :nested
+  config.boolean_style = :inline
 
   # Default class for buttons
   config.button_class = 'btn'
