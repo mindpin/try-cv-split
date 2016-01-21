@@ -1,28 +1,70 @@
-# 直接用 api 来进行请求，而不仅仅是获取 url，能简化调用链
+<%
+  routes = Rails.application.routes.routes.map { |route|
+    ActionDispatch::Routing::RouteWrapper.new route
+  }.reject! { |route|
+    route.internal?
+  }
+
+  named_routes = routes.select { |route|
+    route.name.present?
+  }
+
+  path_with_name = named_routes.inject({}) { |hash, route|
+    hash[route.path] = route.name
+    hash
+  }
+
+  verb_path_with_name = named_routes.inject({}) { |hash, route|
+    hash["#{route.verb} #{route.path}"] = route.name
+    hash
+  }
+
+  verb_name_arr = routes.map { |route|
+    verb_path = "#{route.verb} #{route.path}"
+    path = route.path
+
+    if name = verb_path_with_name[verb_path] || path_with_name[path]
+      {name: name, verb: route.verb.downcase}
+    else
+      nil
+    end
+  }.compact.uniq
+
+  name_merged_hash = verb_name_arr.inject({}) { |hash, item|
+    hash[item[:name]] ||= []
+    hash[item[:name]] << item[:verb]
+    hash
+  }
+%>
+
+name_verbs = <%= name_merged_hash.to_json %>
+
 @api =
-  resource: (resource_name)->
-    # GET 请求
-    # index
-    show: (resource)->
-      if resource._id?.$oid?
-        resource.id = resource._id.$oid
-      eval.call(@, "Routes.#{resource_name}_path")(resource)
-    # edit
+  routes: {}
+
+for name, verbs of name_verbs
+  (->
+    _name = name
+    _verbs = verbs
+    _func = Routes["#{_name}_path"]
+
+    @api.routes[_name] = ->
+      path = _func.apply(null, arguments)
+      requests = {}
+      for verb in _verbs
+        (->
+          _verb = verb
+          requests[_verb] = (data)->
+            jQuery.ajax
+              url: path
+              type: _verb
+              data: data
+
+          requests.visit = ->
+            Turbolinks.visit path
+        )()
+      return requests
     
-    # 非 GET 请求
-    create: (data)->
-      jQuery.ajax
-        url: eval.call(@, "Routes.#{resource_name}s_path")()
-        type: 'POST'
-        data: data
-
-    update: (resource, data)->
-      jQuery.ajax
-        url: eval.call(@, "Routes.#{resource_name}_path")(resource)
-        type: 'PUT'
-        data: data
-
-    destory: (resource)->
-      jQuery.ajax
-        url: eval.call(@, "Routes.#{resource_name}_path")(resource)
-        type: 'DELETE'
+    @api.routes[_name].toString = _func.toString
+    @api.routes[_name].required_params = _func.required_params
+  )()

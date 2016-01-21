@@ -12,10 +12,11 @@ jQuery(document).on 'ready page:load', ->
   # 创建
   jQuery('form.new_post').on 'click', 'a.create-submit', (evt)->
     data = jQuery('form.new_post').serialize()
-    api.resource('post')
-      .create data
+    api.routes.posts().post(data)
       .done (res)->
-        Turbolinks.visit api.resource('post').show(res.post)
+        post = res.post
+        post.id = post._id.$oid
+        api.routes.post(post).visit()
       .fail (res)->
         errors = JSON.parse res.responseText
         show_errors jQuery('form.new_post'), errors
@@ -25,10 +26,11 @@ jQuery(document).on 'ready page:load', ->
     data = jQuery('form.edit_post').serialize()
     post_id = jQuery('form.edit_post a.update-submit').data('id')
 
-    api.resource('post')
-      .update {id: post_id}, data
+    api.routes.post(post_id).put(data)
       .done (res)->
-        Turbolinks.visit api.resource('post').show(res.post)
+        post = res.post
+        post.id = post._id.$oid
+        api.routes.post(post).visit()
       .fail (res)->
         errors = JSON.parse res.responseText
         show_errors jQuery('form.edit_post'), errors
@@ -37,7 +39,6 @@ jQuery(document).on 'ready page:load', ->
   jQuery('table.posts').on 'click', 'a.destory', ->
     if confirm 'Are you sure?'
       post_id = jQuery(this).data('id')
-      api.resource('post')
-        .destory {id: post_id}
+      api.routes.post(post_id).delete()
         .done =>
           jQuery(this).closest('tr').remove()
