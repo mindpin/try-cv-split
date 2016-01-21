@@ -8,7 +8,7 @@ class BooksController < ApplicationController
   # 由 js 构建页面 dom 内容
 
   def index
-    @books = Book.all
+    @books = Book.all.map(&:good_as_json)
   end
 
 

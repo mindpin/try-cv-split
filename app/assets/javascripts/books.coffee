@@ -31,11 +31,3 @@ jQuery(document).on 'ready page:change', ->
       .fail (res)->
         errors = JSON.parse res.responseText
         show_errors $edit_form, errors
-
-  # 删除
-  jQuery('table.books').on 'click', 'a.destory', ->
-    if confirm 'Are you sure?'
-      book_id = jQuery(this).data('id')
-      api.routes.book(book_id).delete()
-        .done =>
-          jQuery(this).closest('tr').remove()
