@@ -1,64 +1,52 @@
 class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
-  # GET /posts
-  # GET /posts.json
+  # 初级的分离方案中
+  # 类似 index show new edit 等 GET 请求 action
+  # 没有做到分离
+  # 彻底分离时应该只 render json
+  # 由 js 构建页面 dom 内容
+
   def index
     @posts = Post.all
   end
 
-  # GET /posts/1
-  # GET /posts/1.json
+
   def show
   end
 
-  # GET /posts/new
   def new
     @post = Post.new
   end
 
-  # GET /posts/1/edit
   def edit
   end
 
-  # POST /posts
-  # POST /posts.json
+  # 类似 create update destory 等非 GET 请求 action
+  # 只 render json
+  # 所有页面跳转，错误回报，页面内容变更都由 js 处理
+
   def create
     @post = Post.new(post_params)
 
-    respond_to do |format|
-      if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render :show, status: :created, location: @post }
-      else
-        format.html { render :new }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    if @post.save
+      render json: {post: @post} # 一般有个 200 状态返回就行，如果需要其他信息就在这里补充
+    else
+      render json: @post.errors, status: :unprocessable_entity
     end
   end
 
-  # PATCH/PUT /posts/1
-  # PATCH/PUT /posts/1.json
   def update
-    respond_to do |format|
-      if @post.update(post_params)
-        format.html { redirect_to @post, notice: 'Post was successfully updated.' }
-        format.json { render :show, status: :ok, location: @post }
-      else
-        format.html { render :edit }
-        format.json { render json: @post.errors, status: :unprocessable_entity }
-      end
+    if @post.update(post_params)
+      render json: {post: @post} # 一般有个 200 状态返回就行，如果需要其他信息就在这里补充
+    else
+      render json: @post.errors, status: :unprocessable_entity
     end
   end
 
-  # DELETE /posts/1
-  # DELETE /posts/1.json
   def destroy
     @post.destroy
-    respond_to do |format|
-      format.html { redirect_to posts_url, notice: 'Post was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    render json: {}
   end
 
   private
