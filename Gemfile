@@ -44,11 +44,8 @@ end
 gem "mongoid", "~> 4.0.0"
 gem "haml"
 
-gem 'sprockets', '3.4.0'
-gem 'sprockets-rails', '2.3.3'
-
-gem 'react-rails', '~> 1.2.0'
-gem 'sprockets-coffee-react', '~> 3.0.1'
+gem 'react-rails', '~> 1.5.0'
+gem 'sprockets-coffee-react'
 gem "js-routes"
 
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'

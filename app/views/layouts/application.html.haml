@@ -5,16 +5,11 @@
     = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
-  %body
-    .ui.container
-      .ui.menu
-        %a.item{:href => "/"} TryCvSplit
+  %body.app
+    = react_component 'Layout.TopMenu'
+    .ui.container.main
       .ui.grid
-        .four.wide.column
-          .ui.menu.vertical
-            - if request.path == "/books"
-              %a.active.item{:href => "/books"} Books
-            - else
-              %a.item{:href => "/books"} Books
-        .twelve.wide.column
+        .ui.four.wide.column
+          = react_component 'Layout.SideMenu', current_path: request.path
+        .ui.twelve.wide.column
           = yield
