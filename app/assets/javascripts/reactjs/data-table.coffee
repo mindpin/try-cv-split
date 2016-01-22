@@ -1,8 +1,8 @@
 @DataTable = React.createClass
   render: ->
     <table className='ui celled table'>
-      <DataTable.THead columns={@props.data_source.columns} />
-      <DataTable.TBody data={@props.data_source.data} columns={@props.data_source.columns}/>
+      <DataTable.THead columns={@props.columns} />
+      <DataTable.TBody data={@props.data} columns={@props.columns}/>
     </table>
 
   statics:
@@ -10,10 +10,12 @@
       render: ->
         <thead><tr>
           {
-            for column, name of @props.columns
-              <th key={column}>{name}</th>
+            for key, c of @props.columns
+              if c.renders?
+                <th key={key} colSpan={c.renders.length}>{c.title}</th>
+              else
+                <th key={key}>{c.title}</th>
           }
-          <th colSpan='3'></th>
         </tr></thead>
 
     TBody: React.createClass
@@ -38,18 +40,23 @@
       render: ->
         <tr>
           {
-            for column, name of @props.columns
-              <td key={column}>{@props.item[column] + ''}</td>
+            for key, c of @props.columns
+              ditem = @props.item
+              value = ditem[key]
+
+              if c.renders?
+                for _render, idx in c.renders
+                  _key = "#{key}_#{idx}"
+                  _value = _render value, ditem
+                  <td key={_key}>{_value}</td>
+
+              else if c.render?
+                _value = c.render value, ditem
+                <td key={key}>{_value}</td>
+              else
+                <td key={key}>{value}</td>
+                
           }
-          <td>
-            <a href='javascript:;' onClick={@show}>Show</a>
-          </td>
-          <td>
-            <a href='javascript:;' onClick={@edit}>Edit</a>
-          </td>
-          <td>
-            <a href='javascript:;' onClick={@destroy}>Destroy</a>
-          </td>
         </tr>
 
       show: ->

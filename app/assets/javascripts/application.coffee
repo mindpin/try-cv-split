@@ -9,7 +9,6 @@
 
 # semantic-ui
 #= require semantic-ui
-#= require semantic-ui-loader
 
 # js-routes
 #= require js-routes

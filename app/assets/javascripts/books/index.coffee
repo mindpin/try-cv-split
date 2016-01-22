@@ -1,16 +1,33 @@
 Views?.Book?.Index = React.createClass
   render: ->
-    data_source =
-      data: @props.data
-      columns:
+    columns =
+      title:
         title: 'Title'
-        body: 'Body'
-        published: 'Published'
+      body:
+        title: 'Body'
+      published:
+        title: 'Published'
+        render: (value)->
+          if value
+            <span className='ui green tiny header'>Yes</span>
+          else
+            <span className='ui red tiny header'>No</span>
+      ops:
+        title: ''
+        renders: [
+          (value, item)->
+            <APILink to={['book', item]}>Show</APILink>
+          (value, item)->
+            <APILink to={['edit_book', item]}>Edit</APILink>
+          (value, item)->
+            <a href='javascript:;' onClick={@destroy}>Destroy</a>
+        ]
+          
 
     <div>
       <h1>Listing Books</h1>
-      <DataTable data_source={data_source} />
-      <APIButton to={['new_book']}>
+      <DataTable data={@props.data} columns={columns} />
+      <APILink className='ui labeled icon button green' to={['new_book']}>
         <i className='icon add' /> New Book
-      </APIButton>
+      </APILink>
     </div>
