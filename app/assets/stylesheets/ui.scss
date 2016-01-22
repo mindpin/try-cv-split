@@ -3,4 +3,11 @@ body.app {
     position: relative;
     top: 5em;
   }
+
+  a {
+    &:hover {
+      color: #fff;
+      background-color: #000;
+    }
+  }
 }

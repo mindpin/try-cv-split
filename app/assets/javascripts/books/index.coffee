@@ -1,4 +1,4 @@
-@BooksIndexPage = React.createClass
+Views?.Book?.Index = React.createClass
   render: ->
     data_source =
       data: @props.data
@@ -10,5 +10,7 @@
     <div>
       <h1>Listing Books</h1>
       <DataTable data_source={data_source} />
-      <APIButton visit={['new_book']} />
+      <APIButton to={['new_book']}>
+        <i className='icon add' /> New Book
+      </APIButton>
     </div>

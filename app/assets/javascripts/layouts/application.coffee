@@ -10,7 +10,7 @@
   SideMenu: React.createClass
     render: ->
       current_path = @props.current_path
-      <div className='ui vertical menu'>
+      <div className='ui vertical pointing menu'>
       {
         if current_path is '/books'
           <a className='active item' href='/books'>Books</a>

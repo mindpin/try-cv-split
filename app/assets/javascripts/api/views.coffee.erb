@@ -1,0 +1,27 @@
+basic_view = (name)->
+  React.createClass
+    render: ->
+      <div className='ui icon warning message'>
+        <i className='icon settings'></i>
+        <div className='content'>
+          <div className='header'>
+          {name}
+          </div>
+          <p>页面尚未实现，请开发集成工程师注意</p>
+        </div>
+      </div>
+
+build_basic_views = (obj, parent_keys=[])->
+  for key, sub of obj
+    keys = parent_keys.concat key
+    if sub is null
+      obj[key] = basic_view keys.join('.')
+    else
+      build_basic_views sub, keys
+
+@Views =
+  Book:
+    Index: null
+    Show: null
+
+build_basic_views @Views, ['Views']
