@@ -1,12 +1,3 @@
-show_errors = ($form, errors)->
-  $err_tips = jQuery "<div class='error-tips' style='color:red;'></div>"
-  for field, tips of errors
-    for tip in tips
-      $err_tips.append "<div>#{field}:#{tip}</div>"
-  $form
-    .find('.error-tips').remove().end()
-    .append $err_tips
-
 jQuery(document).on 'ready page:change', ->
   $new_form = jQuery('form.new_comment')
   $edit_form = jQuery('form.edit_comment')
@@ -41,3 +32,21 @@ jQuery(document).on 'ready page:change', ->
         .done =>
           jQuery(this).closest('tr').remove()
 
+  # 在book详情页里读取comments列表
+  $page_book = jQuery('.page-book')
+  if $page_book.length > 0
+    book_id = $page_book.data('book-id')
+    api.routes.book_comments(book_id).get()
+      .done (res)->
+        tmp = ''
+        res.map (comment)->
+          comment_id = comment._id.$oid
+          tmp += "<tr></tr>"
+          tmp += "<td>#{comment.body}</td>"
+          tmp += "<td><a href='#{api.routes.comment(comment_id)}'>Show</a></td>"
+          tmp += "<td><a href='#{api.routes.comment(comment_id)}/edit'>Edit</a></td>"
+          tmp += "<td><a class='destory' href='javascript:;' data-id='#{comment_id}'>Destroy</a></td>"
+
+        $page_book.find('tbody').html(tmp)
+      .fail (res)->
+        console.log res
