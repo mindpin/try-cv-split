@@ -1,0 +1,10 @@
+= simple_form_for([@book, @comment], html: {data: {book_id: (@comment.book || @book).id.to_s}}) do |f|
+  = f.input :body, :as => :text
+
+  .actions
+    - if @comment.new_record?
+      %a.ui.button.primary.create-submit{href: 'javascript:;'} Create Comment
+    - else
+      %a.ui.button.primary.update-submit{href: 'javascript:;', data: {id: @comment.id}} Update Comment
+
+    = link_to 'Back', book_path(@comment.book || @book), class: 'ui button'

@@ -4,6 +4,8 @@ class Book
   field :body, type: String
   field :published, type: Mongoid::Boolean
 
+  has_many :comments
+
   validates :title, presence: true
   validates :body, presence: true
 end
