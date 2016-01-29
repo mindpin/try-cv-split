@@ -11,9 +11,8 @@
 #= require api/api
 
 # ReactJS
-require 'react_ujs'
+require 'react/init'
 
 # others
 require 'base/init_loader'
 require 'books/form'
-require './react_components'

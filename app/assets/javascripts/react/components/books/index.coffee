@@ -1,6 +1,6 @@
 React = require 'react'
-APILink = require "base/define/react_component/api_link"
-DataTable = require "base/define/react_component/data_table"
+APILink = require "react/components/base/api_link"
+DataTable = require "react/components/base/data_table"
 
 Index = React.createClass
   render: ->
