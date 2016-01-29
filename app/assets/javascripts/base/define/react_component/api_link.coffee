@@ -1,10 +1,12 @@
-@APILink = React.createClass
+React = require 'react'
+
+APILink = React.createClass
   render: ->
     if @props.to
       path = @props.to[0]
       params = @props.to[1]
       url = api.routes[path](params).path
-      
+
       <a className={@props.className} href={url}>
       {@props.children}
       </a>
@@ -12,3 +14,5 @@
       <a className={@props.className} href='javascript:;'>
       {@props.children}
       </a>
+
+module.exports = APILink

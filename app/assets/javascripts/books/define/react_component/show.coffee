@@ -1,4 +1,8 @@
-Views?.Book?.Show = React.createClass
+React = require 'react'
+APILink = require "base/define/react_component/api_link"
+DataTable = require "base/define/react_component/data_table"
+
+Show = React.createClass
   render: ->
     book = @props.data
     <div>
@@ -26,3 +30,6 @@ BookItem = React.createClass
         {book.published + ''}
       </p>
     </div>
+
+
+module.exports = Show

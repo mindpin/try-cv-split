@@ -1,4 +1,8 @@
-Views?.Book?.Index = React.createClass
+React = require 'react'
+APILink = require "base/define/react_component/api_link"
+DataTable = require "base/define/react_component/data_table"
+
+Index = React.createClass
   render: ->
     columns =
       title:
@@ -22,7 +26,7 @@ Views?.Book?.Index = React.createClass
           (value, item)->
             <a href='javascript:;' onClick={@destroy}>Destroy</a>
         ]
-          
+
 
     <div>
       <h1>Listing Books</h1>
@@ -31,3 +35,5 @@ Views?.Book?.Index = React.createClass
         <i className='icon add' /> New Book
       </APILink>
     </div>
+
+module.exports = Index

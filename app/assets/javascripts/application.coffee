@@ -3,15 +3,17 @@
 #= require jquery_ujs
 #= require turbolinks
 
-# ReactJS
-#= require react
-#= require react_ujs
-
 # semantic-ui
 #= require semantic-ui
 
 # js-routes
 #= require js-routes
+#= require api/api
+
+# ReactJS
+require 'react_ujs'
 
 # others
-#= require_tree .
+require 'base/init_loader'
+require 'books/form'
+require './react_components'

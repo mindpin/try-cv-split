@@ -1,4 +1,6 @@
-@DataTable = React.createClass
+React = require 'react'
+
+DataTable = React.createClass
   render: ->
     <table className='ui celled table'>
       <DataTable.THead columns={@props.columns} />
@@ -55,7 +57,7 @@
                 <td key={key}>{_value}</td>
               else
                 <td key={key}>{value}</td>
-                
+
           }
         </tr>
 
@@ -68,3 +70,5 @@
       destroy: ->
         if confirm 'Are you sure?'
           @props.parent.destroy(@props.item)
+
+module.exports = DataTable

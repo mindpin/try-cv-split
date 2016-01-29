@@ -44,10 +44,12 @@ end
 gem "mongoid", "~> 4.0.0"
 gem "haml"
 
-gem 'react-rails', '~> 1.5.0'
-gem 'sprockets-coffee-react'
 gem "js-routes"
 
 gem 'semantic-ui-sass', github: 'doabit/semantic-ui-sass'
 
 gem 'simple_form'
+
+gem "browserify-rails",
+  github: 'mindpin/browserify-rails',
+  ref: "61951a6"
