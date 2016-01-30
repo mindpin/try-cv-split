@@ -1,10 +1,27 @@
 React = require 'react'
+Store = require "react/stores/base/store"
+Actions = require "react/actions/base/action"
+
+get_state = (model)->
+  list: Store.all(model)
 
 DataTable = React.createClass
+  getInitialState: ->
+    get_state(@props.model)
+
+  componentDidMount: ->
+    Store.add_change_listener @_on_change
+
+  componentWillUnmount: ->
+    Store.remove_change_listener @_on_change
+
+  _on_change: ->
+    @setState get_state(@props.model)
+
   render: ->
     <table className='ui celled table'>
       <DataTable.THead columns={@props.columns} />
-      <DataTable.TBody data={@props.data} columns={@props.columns}/>
+      <DataTable.TBody model={@props.model} data={@state.list} columns={@props.columns}/>
     </table>
 
   statics:
@@ -21,22 +38,13 @@ DataTable = React.createClass
         </tr></thead>
 
     TBody: React.createClass
-      getInitialState: ->
-        data: @props.data
       render: ->
         <tbody>
         {
-          for item, idx in @state.data
-            <DataTable.Tr key={idx} item={item} columns={@props.columns} parent={@} />
+          for item, idx in @props.data
+            <DataTable.Tr model={@props.model} key={idx} item={item} columns={@props.columns} />
         }
         </tbody>
-
-      destroy: (item)->
-        api.routes.book(item).delete()
-          .done =>
-            data = @state.data
-            data = data.filter (x)-> x.id != item.id
-            @setState data: data
 
     Tr: React.createClass
       render: ->
@@ -49,11 +57,11 @@ DataTable = React.createClass
               if c.renders?
                 for _render, idx in c.renders
                   _key = "#{key}_#{idx}"
-                  _value = _render value, ditem
+                  _value = _render value, ditem, @
                   <td key={_key}>{_value}</td>
 
               else if c.render?
-                _value = c.render value, ditem
+                _value = c.render value, ditem, @
                 <td key={key}>{_value}</td>
               else
                 <td key={key}>{value}</td>
@@ -61,14 +69,17 @@ DataTable = React.createClass
           }
         </tr>
 
-      show: ->
-        api.routes.book(@props.item).visit()
-
-      edit: ->
-        api.routes.edit_book(@props.item).visit()
+      # show: ->
+      #   api.routes.book(@props.item).visit()
+      #
+      # edit: ->
+      #   api.routes.edit_book(@props.item).visit()
 
       destroy: ->
         if confirm 'Are you sure?'
-          @props.parent.destroy(@props.item)
+          # TODO
+          api.routes.book(@props.item).delete()
+            .done =>
+              Actions.destroy(@props.model, @props.item)
 
 module.exports = DataTable

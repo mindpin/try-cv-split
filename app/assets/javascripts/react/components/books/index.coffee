@@ -1,9 +1,12 @@
 React = require 'react'
 APILink = require "react/components/base/api_link"
 DataTable = require "react/components/base/data_table"
+Actions = require "react/actions/base/action"
+Store   = require "react/stores/base/store"
 
 Index = React.createClass
   render: ->
+    Actions.set_all 'book', @props.data
     columns =
       title:
         title: 'Title'
@@ -23,14 +26,14 @@ Index = React.createClass
             <APILink to={['book', item]}>Show</APILink>
           (value, item)->
             <APILink to={['edit_book', item]}>Edit</APILink>
-          (value, item)->
-            <a href='javascript:;' onClick={@destroy}>Destroy</a>
+          (value, item, tr)->
+            <a href='javascript:;' onClick={tr.destroy}>Destroy</a>
         ]
 
 
     <div>
       <h1>Listing Books</h1>
-      <DataTable data={@props.data} columns={columns} />
+      <DataTable model="book" columns={columns} />
       <APILink className='ui labeled icon button green' to={['new_book']}>
         <i className='icon add' /> New Book
       </APILink>
