@@ -69,16 +69,15 @@ DataTable = React.createClass
           }
         </tr>
 
-      # show: ->
-      #   api.routes.book(@props.item).visit()
-      #
-      # edit: ->
-      #   api.routes.edit_book(@props.item).visit()
+      show: ->
+        api.routes[@props.model](@props.item).visit()
+
+      edit: ->
+        api.routes["edit_#{@props.model}"](@props.item).visit()
 
       destroy: ->
         if confirm 'Are you sure?'
-          # TODO
-          api.routes.book(@props.item).delete()
+          api.routes[@props.model](@props.item).delete()
             .done =>
               Actions.destroy(@props.model, @props.item)
 
